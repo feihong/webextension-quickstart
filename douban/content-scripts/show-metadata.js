@@ -1,7 +1,9 @@
-function main() {
+function __main() {
 //=============================================================================
-let scripts = [...document.querySelectorAll('script')].filter(
-  node => node.innerText.includes('var __bootstrap_data = '))
+
+let scripts = $('script').filter(function() {
+  return this.innerText.includes('var __bootstrap_data = ')
+})
 
 if (scripts.length) {
   let text = scripts[0].innerText
@@ -9,11 +11,35 @@ if (scripts.length) {
   let end = text.lastIndexOf(';')
   let data = JSON.parse(text.substring(start, end))
 
-  for (let song of data.playlist) {
-      console.log(song.url, song.artist.name, song.title)
-    }
-}
-//=============================================================================
+  populateList(data.playlist)
+  // for (let song of data.playlist) {
+  //     console.log(song.url, song.artist.name, song.title)
+  // }
 }
 
-main()
+function populateList(playlist) {
+  let ol = $('ol#douban-metadata')
+  if (ol.length === 0) {
+    ol = $('<ol id="douban-metadata">').prependTo(document.body)
+  } else {
+    ol.empty()
+  }
+  for (let song of playlist) {
+    let li = $('<li>').appendTo(ol)
+    let parts = song.url.split('/')
+    let fileName = parts[parts.length - 1]
+    $('<a>').text(fileName).attr('href', song.url).appendTo(li)
+
+    $('<a style="margin: 0 1rem">')
+      .attr('href', song.artist.url)
+      .attr('target', '_blank')
+      .html(song.artist.name)
+      .appendTo(li)
+      
+    $('<span style="margin-right: 1rem">').html(song.title).appendTo(li)
+  }
+}
+
+//=============================================================================
+}
+__main()

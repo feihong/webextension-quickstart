@@ -1,5 +1,4 @@
 {
-
   "manifest_version": 2,
   "name": "Douban Music Metadata",
   "version": "1.0",
@@ -23,8 +22,7 @@
   "content_scripts": [
     {
       "matches": ["*://music.douban.com/artists/player*"],
-      "js": ["main.js"]
+      "js": ["content-scripts/zepto.min.js", "main.js"]
     }
   ]
-
 }
