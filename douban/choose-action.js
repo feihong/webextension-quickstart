@@ -4,9 +4,8 @@ function handleClick(selector, fn) {
 }
 
 handleClick('.show', evt => {
-  console.log('show')
   browser.tabs.executeScript(null, {
-    file: '/content-scripts/show-metadata.js'
+    code: 'showMetadata()'
   })
   window.close()
 })

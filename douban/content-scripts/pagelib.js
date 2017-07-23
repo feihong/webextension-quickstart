@@ -1,21 +1,22 @@
-function __main() {
-//=============================================================================
 
-let scripts = $('script').filter(function() {
-  return this.innerText.includes('var __bootstrap_data = ')
-})
+function showMetadata() {
+  let scripts = $('script').filter(function() {
+    return this.innerText.includes('var __bootstrap_data = ')
+  })
 
-if (scripts.length) {
-  let text = scripts[0].innerText
-  let start = text.indexOf('{"playlist": ')
-  let end = text.lastIndexOf(';')
-  let data = JSON.parse(text.substring(start, end))
+  if (scripts.length) {
+    let text = scripts[0].innerText
+    let start = text.indexOf('{"playlist": ')
+    let end = text.lastIndexOf(';')
+    let data = JSON.parse(text.substring(start, end))
 
-  populateList(data.playlist)
-  // for (let song of data.playlist) {
-  //     console.log(song.url, song.artist.name, song.title)
-  // }
+    populateList(data.playlist)
+    // for (let song of data.playlist) {
+    //     console.log(song.url, song.artist.name, song.title)
+    // }
+  }
 }
+
 
 function populateList(playlist) {
   let ol = $('ol#douban-metadata')
@@ -35,11 +36,7 @@ function populateList(playlist) {
       .attr('target', '_blank')
       .html(song.artist.name)
       .appendTo(li)
-      
+
     $('<span style="margin-right: 1rem">').html(song.title).appendTo(li)
   }
 }
-
-//=============================================================================
-}
-__main()

@@ -10,7 +10,8 @@
   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "tabs"
   ],
 
   "browser_action": {
@@ -22,7 +23,7 @@
   "content_scripts": [
     {
       "matches": ["*://music.douban.com/artists/player*"],
-      "js": ["content-scripts/zepto.min.js", "main.js"]
+      "js": ["content-scripts/zepto.min.js", "content-scripts/pagelib.js"]
     }
   ]
 }
