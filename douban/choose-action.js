@@ -3,17 +3,27 @@ function handleClick(selector, fn) {
   node.addEventListener('click', fn)
 }
 
+
 handleClick('.show', evt => {
-  browser.tabs.executeScript(null, {
+  browser.tabs.executeScript({
     code: 'showMetadata()'
   })
   window.close()
 })
 
-
 handleClick('.download', evt => {
-  browser.tabs.executeScript(null, {
-    code: 'downloadFiles()'
+  browser.tabs.query({
+    currentWindow: true,
+    active: true
+  }).then(tabs => {
+    browser.tabs.sendMessage(tabs[0].id, {action: 'getSongs'})
+    window.close()
+  })
+})
+
+handleClick('.copy', evt => {
+  browser.tabs.executeScript({
+    code: 'copyMetadata()'
   })
   window.close()
 })

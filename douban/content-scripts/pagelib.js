@@ -8,19 +8,14 @@ function showMetadata() {
 }
 
 
-function downloadFiles() {
-  let playlist = getPlaylist()
-  for (let song of playlist) {
-    console.log(song.url)
-    downloads.download({
-      url: song.url,
-      filename: 'douban/' + song.filename
-    })
-  }
+function copyMetadata() {
+  document.execCommand('copy')
 }
 
 
+
 function getPlaylist() {
+  console.log('Get playlist')
   let scripts = $('script').filter(function() {
     return this.innerText.includes('var __bootstrap_data = ')
   })
@@ -30,7 +25,9 @@ function getPlaylist() {
     let start = text.indexOf('{"playlist": ')
     let end = text.lastIndexOf(';')
     let data = JSON.parse(text.substring(start, end))
-    return data.playlist.map(song => {
+    let playlist = data.playlist
+    console.log(`Found ${playlist.length} songs in playlist`)
+    return playlist.map(song => {
       let parts = song.url.split('/')
       song.filename = parts[parts.length - 1]
       return song
@@ -61,3 +58,13 @@ function populateList(playlist) {
     $('<span style="margin-right: 1rem">').html(song.title).appendTo(li)
   }
 }
+
+
+browser.runtime.onMessage.addListener(request => {
+  if (request.action === 'getSongs') {
+    browser.runtime.sendMessage({
+      action: 'downloadSongs',
+      data: getPlaylist()
+    })
+  }
+});
