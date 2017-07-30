@@ -27,7 +27,11 @@ browser.webRequest.onCompleted.addListener(
     console.log('Complete:', details.requestId, url)
     let parts = url.split('/')
     let filename = parts[parts.length - 1]
-    browser.downloads.download({url: url, filename: 'douban/' + filename})
+    browser.downloads.download({
+      url: url,
+      filename: 'douban/' + filename,
+      conflictAction: 'overwrite'      
+    })
   },
   {urls: ['*://*/*.mp3']}
 )
