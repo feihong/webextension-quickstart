@@ -9,3 +9,11 @@ handleClick('.show', evt => {
   })
   window.close()
 })
+
+
+handleClick('.download', evt => {
+  browser.tabs.executeScript(null, {
+    code: 'downloadFiles()'
+  })
+  window.close()
+})

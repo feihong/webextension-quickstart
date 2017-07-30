@@ -8,6 +8,18 @@ function showMetadata() {
 }
 
 
+function downloadFiles() {
+  let playlist = getPlaylist()
+  for (let song of playlist) {
+    console.log(song.url)
+    downloads.download({
+      url: song.url,
+      filename: 'douban/' + song.filename
+    })
+  }
+}
+
+
 function getPlaylist() {
   let scripts = $('script').filter(function() {
     return this.innerText.includes('var __bootstrap_data = ')
@@ -18,7 +30,11 @@ function getPlaylist() {
     let start = text.indexOf('{"playlist": ')
     let end = text.lastIndexOf(';')
     let data = JSON.parse(text.substring(start, end))
-    return data.playlist
+    return data.playlist.map(song => {
+      let parts = song.url.split('/')
+      song.filename = parts[parts.length - 1]
+      return song
+    })
   } else {
     console.log('No playlist found')
     return []
@@ -34,9 +50,7 @@ function populateList(playlist) {
   }
   for (let song of playlist) {
     let li = $('<li>').appendTo(ol)
-    let parts = song.url.split('/')
-    let fileName = parts[parts.length - 1]
-    $('<a>').text(fileName).attr('href', song.url).appendTo(li)
+    $('<a>').text(song.filename).attr('href', song.url).appendTo(li)
 
     $('<a style="margin: 0 1rem">')
       .attr('href', song.artist.url)
