@@ -1,5 +1,14 @@
 
 function showMetadata() {
+  let playlist = getPlaylist()
+  populateList(playlist)
+  // for (let song of playlist) {
+  //     console.log(song.url, song.artist.name, song.title)
+  // }
+}
+
+
+function getPlaylist() {
   let scripts = $('script').filter(function() {
     return this.innerText.includes('var __bootstrap_data = ')
   })
@@ -9,14 +18,12 @@ function showMetadata() {
     let start = text.indexOf('{"playlist": ')
     let end = text.lastIndexOf(';')
     let data = JSON.parse(text.substring(start, end))
-
-    populateList(data.playlist)
-    // for (let song of data.playlist) {
-    //     console.log(song.url, song.artist.name, song.title)
-    // }
+    return data.playlist
+  } else {
+    console.log('No playlist found')
+    return []
   }
 }
-
 
 function populateList(playlist) {
   let ol = $('ol#douban-metadata')
