@@ -3,7 +3,8 @@ function showMetadata() {
   populateList()
 
   if ($('#douban-metadata button').length === 0) {
-    $('<textarea readonly>').appendTo('#douban-metadata')
+    let json = JSON.stringify(getPlaylist(), null, 2)
+    $('<textarea readonly>').val(json).appendTo('#douban-metadata')
     let btn = $('<button>Copy</button>').appendTo('#douban-metadata')
     btn.on('click', copyMetadata)
   }
@@ -11,10 +12,7 @@ function showMetadata() {
 
 
 function copyMetadata() {
-  let json = JSON.stringify(getPlaylist(), null, 2)
-  console.log(json)
   let node = $('#douban-metadata textarea')
-  node.val(json)
   node[0].select()
   document.execCommand('copy')
 }
