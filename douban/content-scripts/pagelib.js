@@ -1,14 +1,21 @@
 
 function showMetadata() {
-  let playlist = getPlaylist()
-  populateList(playlist)
-  // for (let song of playlist) {
-  //     console.log(song.url, song.artist.name, song.title)
-  // }
+  populateList()
+
+  if ($('#douban-metadata button').length === 0) {
+    $('<textarea readonly>').appendTo('#douban-metadata')
+    let btn = $('<button>Copy</button>').appendTo('#douban-metadata')
+    btn.on('click', copyMetadata)
+  }
 }
 
 
 function copyMetadata() {
+  let json = JSON.stringify(getPlaylist(), null, 2)
+  console.log(json)
+  let node = $('#douban-metadata textarea')
+  node.val(json)
+  node[0].select()
   document.execCommand('copy')
 }
 
@@ -38,14 +45,14 @@ function getPlaylist() {
   }
 }
 
-function populateList(playlist) {
-  let ol = $('ol#douban-metadata')
+function populateList() {
+  let ol = $('#douban-metadata ol')
   if (ol.length === 0) {
-    ol = $('<ol id="douban-metadata">').prependTo(document.body)
+    ol = $('<ol>').appendTo('#douban-metadata')
   } else {
     ol.empty()
   }
-  for (let song of playlist) {
+  for (let song of getPlaylist()) {
     let li = $('<li>').appendTo(ol)
     $('<a>').text(song.filename).attr('href', song.url).appendTo(li)
 
@@ -59,7 +66,6 @@ function populateList(playlist) {
   }
 }
 
-
 browser.runtime.onMessage.addListener(request => {
   if (request.action === 'getSongs') {
     browser.runtime.sendMessage({
@@ -67,4 +73,11 @@ browser.runtime.onMessage.addListener(request => {
       data: getPlaylist()
     })
   }
-});
+})
+
+// Add the #douban-metadata div
+$(document).ready(() => {
+  if ($('#douban-metadata').length === 0) {
+    $('<div id="douban-metadata"></div>').prependTo(document.body)
+  }
+})

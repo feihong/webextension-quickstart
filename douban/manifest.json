@@ -12,7 +12,8 @@
   "permissions": [
     "activeTab",
     "tabs",
-    "downloads"
+    "downloads",
+    "clipboardWrite"
   ],
 
   "background": {

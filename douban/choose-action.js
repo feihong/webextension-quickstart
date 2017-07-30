@@ -20,10 +20,3 @@ handleClick('.download', evt => {
     window.close()
   })
 })
-
-handleClick('.copy', evt => {
-  browser.tabs.executeScript({
-    code: 'copyMetadata()'
-  })
-  window.close()
-})
