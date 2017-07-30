@@ -29,8 +29,8 @@ browser.webRequest.onCompleted.addListener(
     let filename = parts[parts.length - 1]
     browser.downloads.download({
       url: url,
-      filename: 'douban/' + filename,
-      conflictAction: 'overwrite'      
+      filename: 'douban-songs/' + filename,
+      conflictAction: 'overwrite'
     })
   },
   {urls: ['*://*/*.mp3']}

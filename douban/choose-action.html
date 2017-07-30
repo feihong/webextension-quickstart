@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8'>
 <style>
-.button {
+.button, label {
   cursor: pointer;
 }
 .button:hover {
@@ -15,6 +15,9 @@
 
 <div class='button show'>Show metadata</div>
 <div class='button download'>Download MP3 files</div>
+<div class='button'>
+  <label><input type='checkbox'>Automatically download files</label>
+</div>
 
 <script src='choose-action.js'></script>
 
