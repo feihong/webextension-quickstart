@@ -13,7 +13,8 @@
     "activeTab",
     "tabs",
     "downloads",
-    "clipboardWrite"
+    "clipboardWrite",
+    "webRequest"
   ],
 
   "background": {

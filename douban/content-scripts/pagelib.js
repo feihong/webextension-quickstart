@@ -3,21 +3,17 @@ function showMetadata() {
   populateList()
 
   if ($('#douban-metadata button').length === 0) {
-    let json = JSON.stringify(getPlaylist(), null, 2)
-    $('<textarea readonly>').val(json).appendTo('#douban-metadata')
-    let btn = $('<button>Copy</button>').appendTo('#douban-metadata')
-    btn.on('click', copyMetadata)
+    $('<button>')
+      .text('Copy to clipboard')
+      .appendTo('#douban-metadata')
+      .on('click', copyMetadata)
   }
 }
 
-
 function copyMetadata() {
-  let node = $('#douban-metadata textarea')
-  node[0].select()
-  document.execCommand('copy')
+  let json = JSON.stringify(getPlaylist(), null, 2)
+  copyToClipboard(json)
 }
-
-
 
 function getPlaylist() {
   console.log('Get playlist')
@@ -62,6 +58,22 @@ function populateList() {
 
     $('<span style="margin-right: 1rem">').html(song.title).appendTo(li)
   }
+}
+
+// Source: https://github.com/mdn/webextensions-examples/tree/master/context-menu-copy-link-with-types
+function copyToClipboard(text) {
+    function onCopy(event) {
+        document.removeEventListener('copy', onCopy, true)
+        // Hide the event from the page to prevent tampering.
+        event.stopImmediatePropagation()
+        // Overwrite the clipboard content.
+        event.preventDefault()
+        event.clipboardData.setData('text/plain', text)
+    }
+    document.addEventListener('copy', onCopy, true)
+
+    // Requires the clipboardWrite permission, or a user gesture:
+    document.execCommand('copy')
 }
 
 browser.runtime.onMessage.addListener(request => {
