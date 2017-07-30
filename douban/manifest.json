@@ -14,7 +14,8 @@
     "tabs",
     "downloads",
     "clipboardWrite",
-    "webRequest"
+    "webRequest",
+    "<all_urls>"
   ],
 
   "background": {

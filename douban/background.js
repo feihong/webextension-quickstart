@@ -11,3 +11,23 @@ browser.runtime.onMessage.addListener(request => {
     }
   }
 })
+
+browser.webRequest.onBeforeRequest.addListener(
+  details => {
+    if (details.url.endsWith('.mp3')) {
+      console.log('Before request:', details.requestId, details.url)
+    }
+  },
+  {urls: ['*://*.doubanio.com/*']}
+)
+
+browser.webRequest.onCompleted.addListener(
+  details => {
+    let url = details.url
+    console.log('Complete:', details.requestId, url)
+    let parts = url.split('/')
+    let filename = parts[parts.length - 1]
+    browser.downloads.download({url: url, filename: 'douban/' + filename})
+  },
+  {urls: ['*://*/*.mp3']}
+)
