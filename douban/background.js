@@ -22,16 +22,20 @@
 
 // When an MP3 download completes, download it into ~/Downloads/douban-songs/.
 browser.webRequest.onCompleted.addListener(
-  details => {
+  async function(details) {
     let url = details.url
-    console.log('Complete:', details.requestId, url)
+    console.log('Request complete:', details.requestId, url)
     let parts = url.split('/')
-    let filename = parts[parts.length - 1]
-    browser.downloads.download({
-      url: url,
-      filename: 'douban-songs/' + filename,
-      conflictAction: 'overwrite'
-    })
+    let filename = 'douban-songs/' + parts[parts.length - 1]
+    let result = await browser.storage.local.get('autoDownload')
+    if (result.autoDownload) {
+      console.log(`Download ${url} to ${filename}`)
+      browser.downloads.download({
+        url: url,
+        filename: filename,
+        conflictAction: 'overwrite'
+      })
+    }
   },
   {urls: ['*://*/*.mp3']}
 )
