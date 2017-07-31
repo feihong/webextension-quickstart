@@ -7,8 +7,7 @@ function addEventListener(selector, eventName, fn) {
 addEventListener('.show', 'click', evt => {
   browser.tabs.executeScript({
     code: 'showMetadata()'
-  })
-  window.close()
+  }).then(window.close)
 })
 
 // addEventListener('.download', 'click', evt => {
@@ -21,7 +20,15 @@ addEventListener('.show', 'click', evt => {
 //   })
 // })
 
-addEventListener('input[type=checkbox]', 'change', evt => {
-  console.log(evt.target.checked)
-  // browser.storage.local.set({autoDownload: !evt.target.value})
+addEventListener('input[type=checkbox]', 'click', evt => {
+  // console.log(!!evt.target.checked)
+  browser.storage.local.set({autoDownload: !!evt.target.checked})
+    .then(window.close)
+})
+
+browser.storage.local.get('autoDownload').then(result => {
+  // console.log(result)
+  // Set the value of the checkbox
+  let checkbox = document.querySelector('input[type=checkbox]')
+  checkbox.checked = !!result.autoDownload
 })

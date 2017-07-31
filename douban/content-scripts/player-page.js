@@ -27,12 +27,8 @@ function getPlaylist() {
     let end = text.lastIndexOf(';')
     let data = JSON.parse(text.substring(start, end))
     let playlist = data.playlist
-    console.log(`Found ${playlist.length} songs in playlist`)
-    return playlist.map(song => {
-      let parts = song.url.split('/')
-      song.filename = parts[parts.length - 1]
-      return song
-    })
+    // console.log(`Found ${playlist.length} songs in playlist`)
+    return playlist
   } else {
     console.log('No playlist found')
     return []
