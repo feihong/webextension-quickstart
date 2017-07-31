@@ -12,6 +12,7 @@ function showMetadata() {
 
 function copyMetadata() {
   let json = JSON.stringify(getPlaylist(), null, 2)
+  console.log(json)
   copyToClipboard(json)
 }
 
@@ -71,15 +72,6 @@ function copyToClipboard(text) {
     // Requires the clipboardWrite permission, or a user gesture:
     document.execCommand('copy')
 }
-
-browser.runtime.onMessage.addListener(request => {
-  if (request.action === 'getSongs') {
-    browser.runtime.sendMessage({
-      action: 'downloadSongs',
-      data: getPlaylist()
-    })
-  }
-})
 
 // Add the #douban-metadata div
 $(document).ready(() => {

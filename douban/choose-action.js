@@ -10,14 +10,9 @@ addEventListener('.show', 'click', evt => {
   }).then(window.close)
 })
 
-// addEventListener('.download', 'click', evt => {
-//   browser.tabs.query({
-//     currentWindow: true,
-//     active: true
-//   }).then(tabs => {
-//     browser.tabs.sendMessage(tabs[0].id, {action: 'getSongs'})
-//     window.close()
-//   })
+// addEventListener('.copy', 'click', evt => {
+//   browser.tabs.executeScript({code: 'copyMetadata()'})
+//     .then(() => console.log('done'))
 // })
 
 addEventListener('input[type=checkbox]', 'click', evt => {
