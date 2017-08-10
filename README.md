@@ -10,3 +10,10 @@ Sources:
 - Load `about:debugging` in Firefox
 - Click "Load Temporary Add-on"
 - Select `main.js` from your extension directory
+
+## Zip up your extension's files
+
+```
+cd douban
+zip -r -FS ../douban.zip *
+```
